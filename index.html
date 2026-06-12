@@ -508,74 +508,6 @@
     background: rgba(61,220,132,0.22);
   }
 
-  /* SEARCH SCREEN */
-  .search-pad {
-    padding: 12px 16px 0;
-  }
-
-  .search-box {
-    position: relative;
-    margin-bottom: 14px;
-  }
-
-  .search-box i {
-    position: absolute;
-    left: 14px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--muted);
-    font-size: 14px;
-  }
-
-  .search-box input {
-    width: 100%;
-    background: var(--surface);
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 13px 14px 13px 40px;
-    font-size: 15px;
-    font-family: var(--font);
-    color: var(--text);
-    outline: none;
-    transition: border-color 0.18s ease, box-shadow 0.18s ease;
-  }
-
-  .search-box input:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px var(--accent-dim);
-  }
-
-  .search-box input::placeholder { color: var(--muted); }
-
-  .filter-section { margin-bottom: 14px; }
-  .filter-title {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.8px;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 8px;
-  }
-
-  .results-count {
-    font-size: 12px;
-    color: var(--muted);
-    padding: 8px 16px 4px;
-    font-weight: 500;
-  }
-
-  .results-count span { color: var(--accent); font-weight: 700; }
-
-  .empty-state {
-    text-align: center;
-    padding: 48px 24px;
-    color: var(--muted);
-  }
-
-  .empty-state i { font-size: 36px; margin-bottom: 12px; display: block; opacity: 0.4; }
-  .empty-state p { font-size: 14px; font-weight: 500; }
-  .empty-state small { font-size: 12px; margin-top: 4px; display: block; }
-
   /* PROFILE */
   .profile-header {
     padding: 28px 20px 20px;
@@ -644,74 +576,7 @@
   .stat-val.green { color: var(--accent); }
   .stat-lbl { font-size: 11px; color: var(--muted); font-weight: 500; }
 
-  .badges-section { padding: 0 16px 16px; }
-
-  .badge-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 12px 16px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 8px;
-    animation: fadeSlide 0.3s ease both;
-  }
-
-  .badge-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    flex-shrink: 0;
-  }
-
-  .badge-icon.gold   { background: rgba(245,158,11,0.15); }
-  .badge-icon.green  { background: rgba(61,220,132,0.15); }
-  .badge-icon.star   { background: rgba(251,191,36,0.15); }
-
-  .badge-info .badge-name {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 2px;
-  }
-
-  .badge-info .badge-desc {
-    font-size: 11px;
-    color: var(--muted);
-    font-weight: 400;
-  }
-
-  .btn-outline {
-    width: calc(100% - 32px);
-    margin: 0 16px 20px;
-    background: transparent;
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 14px;
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--text2);
-    cursor: pointer;
-    font-family: var(--font);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    transition: all 0.15s ease;
-  }
-
-  .btn-outline:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-    background: var(--accent-dim);
-  }
-
-  /* MODAL / TOAST */
+  /* TOAST */
   .toast-wrap {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
@@ -849,26 +714,6 @@
     pointer-events: none;
   }
 
-  /* profile edit form */
-  #profile-edit-name, #profile-edit-city {
-    width: 100%;
-    background: var(--surface2);
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 12px 14px;
-    font-size: 15px;
-    font-family: var(--font);
-    color: var(--text);
-    outline: none;
-    transition: border-color 0.18s ease, box-shadow 0.18s ease;
-    margin-bottom: 12px;
-  }
-
-  #profile-edit-name:focus, #profile-edit-city:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px var(--accent-dim);
-  }
-
   /* requests dot */
   .req-dot {
     display: inline-flex;
@@ -983,57 +828,7 @@
     </div>
   </div>
 
-  <!-- ───────────── SCREEN 3: MEINE POSTS ───────────── -->
-  <div id="screen-mine" class="screen">
-    <div class="form-screen-header" style="margin-bottom:12px;">
-      <div class="screen-title">Meine Posts</div>
-      <div class="screen-sub">Deine angebotenen Materialien.</div>
-    </div>
-    <div id="mine-list"></div>
-  </div>
-
-  <!-- ───────────── SCREEN 4: SUCHE ───────────── -->
-  <div id="screen-search" class="screen">
-    <div class="form-screen-header" style="margin-bottom:0;">
-      <div class="screen-title">Suche</div>
-      <div class="screen-sub">Finde Materialien in deiner Nähe.</div>
-    </div>
-    <div class="search-pad">
-      <div class="search-box" style="margin-top:14px;">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <input type="text" id="search-input" placeholder="Material suchen…">
-      </div>
-      <div class="filter-section">
-        <div class="filter-title">Kategorie</div>
-        <div class="chips" id="search-cat-chips">
-          <div class="chip active" data-val="Alle">Alle</div>
-          <div class="chip" data-val="Holz">🪵 Holz</div>
-          <div class="chip" data-val="Metall">🔩 Metall</div>
-          <div class="chip" data-val="Kunststoff">🧪 Kunststoff</div>
-          <div class="chip" data-val="Textil">🧵 Textil</div>
-        </div>
-      </div>
-      <div class="filter-section">
-        <div class="filter-title">Umkreis</div>
-        <div class="chips" id="search-radius-chips">
-          <div class="chip active" data-val="5">5 km</div>
-          <div class="chip" data-val="10">10 km</div>
-          <div class="chip" data-val="25">25 km</div>
-        </div>
-      </div>
-      <div class="filter-section">
-        <div class="filter-title">Status</div>
-        <div class="chips" id="search-status-chips">
-          <div class="chip active" data-val="verfügbar">Verfügbar</div>
-          <div class="chip" data-val="alle">Alle</div>
-        </div>
-      </div>
-    </div>
-    <div id="search-results-count" class="results-count"></div>
-    <div id="search-results"></div>
-  </div>
-
-  <!-- ───────────── SCREEN 5: PROFIL ───────────── -->
+  <!-- ───────────── SCREEN 3: PROFIL ───────────── -->
   <div id="screen-profile" class="screen">
     <div class="profile-header">
       <div class="avatar" id="profile-avatar">TM</div>
@@ -1055,34 +850,11 @@
       </div>
     </div>
 
-    <div class="badges-section">
-      <div class="section-label" style="margin-bottom:12px;">Badges</div>
-      <div class="badge-card">
-        <div class="badge-icon gold">🥇</div>
-        <div class="badge-info">
-          <div class="badge-name">Erstseparator</div>
-          <div class="badge-desc">Erstes Material erfolgreich geteilt</div>
-        </div>
-      </div>
-      <div class="badge-card" style="animation-delay:0.07s">
-        <div class="badge-icon green">♻️</div>
-        <div class="badge-info">
-          <div class="badge-name">10 kg gerettet</div>
-          <div class="badge-desc">Material mit 10+ kg vor der Tonne bewahrt</div>
-        </div>
-      </div>
-      <div class="badge-card" style="animation-delay:0.14s">
-        <div class="badge-icon star">⭐</div>
-        <div class="badge-info">
-          <div class="badge-name">Top-Geber</div>
-          <div class="badge-desc">Rating von 4.5 oder besser erreicht</div>
-        </div>
-      </div>
+    <div class="form-screen-header" style="margin-bottom:12px; padding-left:0; padding-right:0;">
+      <div class="screen-title" style="font-size:18px;">Meine Posts</div>
+      <div class="screen-sub">Deine angebotenen Materialien.</div>
     </div>
-
-    <button class="btn-outline" id="btn-edit-profile">
-      <i class="fa-regular fa-pen-to-square"></i> Profil bearbeiten
-    </button>
+    <div id="mine-list"></div>
   </div>
 
   <!-- ───────────── BOTTOM NAV ───────────── -->
@@ -1091,17 +863,9 @@
       <i class="fa-solid fa-house"></i>
       <span>Feed</span>
     </div>
-    <div class="nav-item" data-screen="search">
-      <i class="fa-solid fa-magnifying-glass"></i>
-      <span>Suche</span>
-    </div>
     <div class="nav-item post-btn" data-screen="post">
       <i class="fa-solid fa-plus-circle"></i>
       <span>Posten</span>
-    </div>
-    <div class="nav-item" data-screen="mine">
-      <i class="fa-regular fa-rectangle-list"></i>
-      <span>Meine</span>
     </div>
     <div class="nav-item" data-screen="profile">
       <i class="fa-regular fa-user"></i>
@@ -1135,18 +899,12 @@
    DATA STORE
 ────────────────────────────────────────── */
 let activeFilter  = 'Alle';
-let searchQuery   = '';
-let searchCat     = 'Alle';
-let searchRadius  = '5';
-let searchStatus  = 'verfügbar';
 
 let profile = { name: 'Tischlerei Mayer', city: 'Steyr' };
 
 function initials(name) {
   return name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
 }
-
-const MINE_ID = 'mine';
 
 const materials = [
   { id: 1, title: 'Fichtenbretter 2m',    cat: 'Holz',       qty: 8,   unit: 'Stück', plz: '4400', who: 'Schreinerei Huber',   age: 'vor 2h',    status: 'verfügbar',  requests: 0, own: false, desc: 'Unbehandelt, trocken, gehobelt.' },
@@ -1214,8 +972,6 @@ function navigate(screen) {
   document.querySelector(`.nav-item[data-screen="${screen}"]`)?.classList.add('active');
 
   if (screen === 'feed')    renderFeed();
-  if (screen === 'mine')    renderMine();
-  if (screen === 'search')  renderSearch();
   if (screen === 'profile') renderProfile();
 }
 
@@ -1253,7 +1009,7 @@ function renderFeed() {
       </div>
       ${m.status === 'verfügbar'
         ? `<button class="btn-claim ${claimed.has(m.id) ? 'sent' : ''}" data-id="${m.id}">
-            ${claimed.has(m.id) ? '<i class="fa-solid fa-check"></i> Anfrage gesendet' : 'Ich brauche das'}
+            ${claimed.has(m.id) ? '<i class="fa-solid fa-check"></i> Anfrage gesendet' : 'DIBS!'}
           </button>`
         : `<button class="btn-claim sent" style="cursor:default;" disabled>
             <i class="fa-solid fa-clock"></i> ${m.status === 'reserviert' ? 'Reserviert' : 'Abgeholt'}
@@ -1375,7 +1131,7 @@ function shakeInput(id) {
 }
 
 /* ──────────────────────────────────────────
-   MY POSTS
+   MY POSTS (now inside Profil)
 ────────────────────────────────────────── */
 const STATUS_CYCLE = { 'verfügbar': 'reserviert', 'reserviert': 'abgeholt', 'abgeholt': 'verfügbar' };
 const STATUS_NEXT_LABEL = { 'verfügbar': '→ Reserviert', 'reserviert': '→ Abgeholt', 'abgeholt': '→ Verfügbar' };
@@ -1477,82 +1233,6 @@ function openEditModal(mat) {
 }
 
 /* ──────────────────────────────────────────
-   SEARCH
-────────────────────────────────────────── */
-function renderSearch() {
-  const q = searchQuery.toLowerCase();
-  const results = materials.filter(m => {
-    const matchQ   = !q || m.title.toLowerCase().includes(q) || m.cat.toLowerCase().includes(q);
-    const matchCat = searchCat === 'Alle' || m.cat === searchCat;
-    const matchSt  = searchStatus === 'alle' || m.status === 'verfügbar';
-    return matchQ && matchCat && matchSt;
-  });
-
-  const count = document.getElementById('search-results-count');
-  count.innerHTML = `<span>${results.length}</span> Ergebnis${results.length !== 1 ? 'se' : ''} gefunden`;
-
-  const list = document.getElementById('search-results');
-  if (!results.length) {
-    list.innerHTML = `<div class="empty-state"><i class="fa-solid fa-magnifying-glass"></i><p>Nichts gefunden</p><small>Versuche andere Filter oder Suchbegriffe.</small></div>`;
-    return;
-  }
-
-  const claimed = claimedSet();
-  list.innerHTML = results.map((m, i) => `
-    <div class="card" style="animation-delay:${i*0.05}s">
-      <div class="card-header">
-        <div>
-          <div class="card-title">${escHtml(m.title)}</div>
-          <div class="card-meta">${escHtml(m.who)} · ${escHtml(m.plz)}</div>
-        </div>
-        <div class="cat-badge cat-${m.cat}">${m.cat}</div>
-      </div>
-      <div class="card-qty">
-        <i class="fa-solid fa-box"></i>${m.qty} ${m.unit}
-      </div>
-      ${m.status === 'verfügbar'
-        ? `<button class="btn-claim ${claimed.has(m.id) ? 'sent' : ''}" data-id="${m.id}">
-            ${claimed.has(m.id) ? '<i class="fa-solid fa-check"></i> Anfrage gesendet' : 'Ich brauche das'}
-          </button>`
-        : `<button class="btn-claim sent" disabled><i class="fa-solid fa-clock"></i> ${capitalize(m.status)}</button>`
-      }
-    </div>
-  `).join('');
-
-  list.querySelectorAll('.btn-claim:not(.sent)').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const id = +btn.dataset.id;
-      const mat = materials.find(m => m.id === id);
-      if (!mat) return;
-      mat.requests++;
-      markClaimed(id);
-      btn.classList.add('sent');
-      btn.innerHTML = '<i class="fa-solid fa-check"></i> Anfrage gesendet';
-      showToast('✅', 'Anfrage gesendet!', `Deine Anfrage für „${mat.title}" wurde übermittelt.`);
-    });
-  });
-}
-
-document.getElementById('search-input').addEventListener('input', (e) => {
-  searchQuery = e.target.value;
-  renderSearch();
-});
-
-function setupChipGroup(containerId, onSelect) {
-  document.querySelectorAll(`#${containerId} .chip`).forEach(c => {
-    c.addEventListener('click', () => {
-      document.querySelectorAll(`#${containerId} .chip`).forEach(x => x.classList.remove('active'));
-      c.classList.add('active');
-      onSelect(c.dataset.val);
-    });
-  });
-}
-
-setupChipGroup('search-cat-chips',    v => { searchCat    = v; renderSearch(); });
-setupChipGroup('search-radius-chips', v => { searchRadius = v; renderSearch(); });
-setupChipGroup('search-status-chips', v => { searchStatus = v; renderSearch(); });
-
-/* ──────────────────────────────────────────
    PROFILE
 ────────────────────────────────────────── */
 function renderProfile() {
@@ -1560,34 +1240,13 @@ function renderProfile() {
   document.getElementById('profile-city').textContent = profile.city;
   document.getElementById('profile-avatar').textContent = initials(profile.name);
   updateStatPosts();
+  renderMine();
 }
 
 function updateStatPosts() {
   const own = materials.filter(m => m.own).length;
   document.getElementById('stat-posts').textContent = own;
 }
-
-document.getElementById('btn-edit-profile').addEventListener('click', () => {
-  const body = `
-    <div class="form-group">
-      <label class="form-label">Name / Betrieb</label>
-      <input type="text" id="profile-edit-name" value="${escHtml(profile.name)}" placeholder="Name">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Stadt</label>
-      <input type="text" id="profile-edit-city" value="${escHtml(profile.city)}" placeholder="Stadt">
-    </div>
-    <button class="btn-primary" id="modal-confirm"><i class="fa-solid fa-floppy-disk"></i> Speichern</button>
-    <button onclick="closeModal()" style="width:100%;margin-top:10px;background:none;border:none;color:var(--muted);font-size:14px;cursor:pointer;font-family:var(--font);padding:10px;">Abbrechen</button>
-  `;
-  showModal('Profil bearbeiten', body, () => {
-    profile.name = document.getElementById('profile-edit-name').value.trim() || profile.name;
-    profile.city = document.getElementById('profile-edit-city').value.trim() || profile.city;
-    closeModal();
-    renderProfile();
-    showToast('👤', 'Profil aktualisiert', 'Deine Profilinformationen wurden gespeichert.');
-  });
-});
 
 /* ──────────────────────────────────────────
    HELPERS
