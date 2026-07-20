@@ -210,19 +210,29 @@ function navigateTo(screen) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-' + screen).classList.add('active');
 }
-
+  
+ThunkableWebviewerExtension.receiveMessage(function(message) {
+  try {
+    const obj = JSON.parse(message);
+    if (obj.type === 'navigate' && obj.screen) {
+      navigateTo(obj.screen);
+    }
+    // hier könnt ihr später auch "materials" oder "profile" Nachrichten abfangen
+  } catch(e) {
+    console.error('Fehler beim Verarbeiten der Nachricht:', e);
+  }
+});
 /* ──────────────────────────────────────────
    BRIDGE: WEBVIEWER → THUNKABLE
 ────────────────────────────────────────── */
 function sendAction(action, payload) {
   const msg = JSON.stringify(Object.assign({ action: action }, payload));
-  if (window.ReactNativeWebView) {
-    window.ReactNativeWebView.postMessage(msg);
+  if (window.ThunkableWebviewerExtension) {
+    ThunkableWebviewerExtension.postMessage(msg);
   } else {
-    console.log('postMessage (no bridge present):', msg);
+    console.log('postMessage (keine Bridge vorhanden):', msg);
   }
 }
-
 /* ──────────────────────────────────────────
    FEED
 ────────────────────────────────────────── */
