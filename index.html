@@ -212,15 +212,7 @@ function navigateTo(screen) {
 }
   
 ThunkableWebviewerExtension.receiveMessage(function(message) {
-  try {
-    const obj = JSON.parse(message);
-    if (obj.type === 'navigate' && obj.screen) {
-      navigateTo(obj.screen);
-    }
-    // hier könnt ihr später auch "materials" oder "profile" Nachrichten abfangen
-  } catch(e) {
-    console.error('Fehler beim Verarbeiten der Nachricht:', e);
-  }
+  alert('Nachricht empfangen: ' + message);
 });
 /* ──────────────────────────────────────────
    BRIDGE: WEBVIEWER → THUNKABLE
