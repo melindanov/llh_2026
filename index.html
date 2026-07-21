@@ -117,6 +117,18 @@
   .nav-item.active i { transform: scale(1.15); }
   .nav-item.post-btn { flex-shrink: 0; width: 52px; }
   .nav-item.post-btn i { font-size: 22px; color: var(--accent); }
+
+  .photo-slot {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+    text-align: center;
+    background: var(--surface);
+    margin-bottom: 14px;
+  }
+  .photo-slot i { font-size: 28px; color: var(--muted); margin-bottom: 8px; display: block; }
+  .photo-slot p { font-size: 13px; color: var(--muted); font-weight: 500; }
+  .photo-slot small { font-size: 11px; color: var(--muted); margin-top: 4px; display: block; }
 </style>
 </head>
 <body>
@@ -147,6 +159,14 @@
       <div class="screen-sub">Teile übrig gebliebenes Material mit anderen Betrieben.</div>
     </div>
     <div class="form-wrap">
+      <div class="photo-slot" id="photo-slot">
+        <img id="photo-preview" src="" alt="" style="display:none;max-height:140px;border-radius:10px;object-fit:cover;width:100%">
+        <div id="photo-placeholder">
+          <i class="fa-regular fa-image"></i>
+          <p>Foto hinzufügen</p>
+          <small>Tippen, um ein Foto auszuwählen</small>
+        </div>
+      </div>
       <div class="form-group">
         <label class="form-label">Materialbezeichnung *</label>
         <input type="text" class="form-input" id="f-title" placeholder="z.B. Fichtenbretter 2m">
@@ -236,13 +256,15 @@
 let materials = [];
 let activeFilter = 'Alle';
 let profile = { name: 'Tischlerei Mayer', city: 'Steyr' };
+let pendingImageUrl = null;
 
 /* ──────────────────────────────────────────
    BRIDGE: THUNKABLE → WEBVIEWER
 ────────────────────────────────────────── */
 function navigateTo(screen) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById('screen-' + screen).classList.add('active');
+  const target = document.getElementById('screen-' + screen);
+  if (target) target.classList.add('active');
 }
 
 function setProfile(name, city) {
@@ -271,6 +293,15 @@ ThunkableWebviewerExtension.receiveMessage(function(message) {
       setProfile(obj.name, obj.city);
       renderMine();
       updateStatPosts();
+    }
+
+    if (obj.type === 'imageSelected' && obj.url) {
+      pendingImageUrl = obj.url;
+      const preview = document.getElementById('photo-preview');
+      const placeholder = document.getElementById('photo-placeholder');
+      preview.src = obj.url;
+      preview.style.display = 'block';
+      placeholder.style.display = 'none';
     }
   } catch(e) {
     console.error('Fehler beim Verarbeiten der Nachricht:', e);
@@ -328,9 +359,16 @@ function renderFeed() {
       <div class="card-qty"><i class="fa-solid fa-box"></i>${m.qty} ${m.unit}
         ${m.plz ? `<span style="margin-left:8px;color:var(--muted)"><i class="fa-solid fa-location-dot"></i> ${m.plz}</span>` : ''}
       </div>
+      ${m.imageUrl ? `<button class="btn-sm view-photo" data-url="${escHtml(m.imageUrl)}" style="width:100%;margin-bottom:8px;justify-content:center;display:flex;align-items:center;gap:6px;"><i class="fa-regular fa-image"></i> Foto ansehen</button>` : ''}
       ${btnHtml}
     </div>`;
   }).join('');
+
+  list.querySelectorAll('.view-photo').forEach(btn => {
+    btn.addEventListener('click', () => {
+      sendAction('viewImage', { url: btn.dataset.url });
+    });
+  });
 
   list.querySelectorAll('.btn-claim[data-id]').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -374,13 +412,16 @@ document.getElementById('btn-post').addEventListener('click', () => {
   if (!qty || qty <= 0) return shakeInput('f-qty');
   if (!plz) return shakeInput('f-plz');
 
-  sendAction('post', { data: { title, category, qty, unit, plz, description } });
+  sendAction('post', { data: { title, category, qty, unit, plz, description, imageUrl: pendingImageUrl || '' } });
 
   document.getElementById('f-title').value = '';
   document.getElementById('f-cat').value = '';
   document.getElementById('f-qty').value = '';
   document.getElementById('f-plz').value = '';
   document.getElementById('f-desc').value = '';
+  pendingImageUrl = null;
+  document.getElementById('photo-preview').style.display = 'none';
+  document.getElementById('photo-placeholder').style.display = 'block';
 });
 
 function shakeInput(id) {
