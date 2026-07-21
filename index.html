@@ -190,13 +190,10 @@ let profile = { name: 'Tischlerei Mayer', city: 'Steyr' };
 
 /* ──────────────────────────────────────────
    BRIDGE: THUNKABLE → WEBVIEWER
-   Thunkable calls these via "Evaluate JavaScript"
 ────────────────────────────────────────── */
-function loadMaterials(jsonString) {
-  try { materials = JSON.parse(jsonString); } catch(e) { materials = []; }
-  renderFeed();
-  renderMine();
-  updateStatPosts();
+function navigateTo(screen) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + screen).classList.add('active');
 }
 
 function setProfile(name, city) {
@@ -206,21 +203,31 @@ function setProfile(name, city) {
   document.getElementById('profile-avatar').textContent = name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
 }
 
-function navigateTo(screen) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById('screen-' + screen).classList.add('active');
-}
-  
 ThunkableWebviewerExtension.receiveMessage(function(message) {
   try {
     const obj = JSON.parse(message);
+
     if (obj.type === 'navigate' && obj.screen) {
       navigateTo(obj.screen);
+    }
+
+    if (obj.type === 'loadMaterials') {
+      materials = obj.data || [];
+      renderFeed();
+      renderMine();
+      updateStatPosts();
+    }
+
+    if (obj.type === 'setProfile') {
+      setProfile(obj.name, obj.city);
+      renderMine();
+      updateStatPosts();
     }
   } catch(e) {
     console.error('Fehler beim Verarbeiten der Nachricht:', e);
   }
 });
+
 /* ──────────────────────────────────────────
    BRIDGE: WEBVIEWER → THUNKABLE
 ────────────────────────────────────────── */
@@ -232,6 +239,7 @@ function sendAction(action, payload) {
     console.log('postMessage (keine Bridge vorhanden):', msg);
   }
 }
+
 /* ──────────────────────────────────────────
    FEED
 ────────────────────────────────────────── */
@@ -360,10 +368,10 @@ function escHtml(s) {
 }
 
 /* ──────────────────────────────────────────
-   INIT — empty until Thunkable calls loadMaterials()
+   INIT — render empty state, then tell Thunkable we're ready
 ────────────────────────────────────────── */
-setProfile(profile.name, profile.city);
 renderFeed();
+sendAction('ready', {});
 </script>
 </body>
 </html>
