@@ -214,7 +214,12 @@ function navigateTo(screen) {
 ThunkableWebviewerExtension.receiveMessage(function(message) {
   try {
     const obj = JSON.parse(message);
-    if (obj.type === 'navigate' && obj.screen) {
+    if (Array.isArray(obj)) {
+      materials = obj;
+      renderFeed();
+      renderMine();
+      updateStatPosts();
+    } else if (obj.type === 'navigate' && obj.screen) {
       navigateTo(obj.screen);
     }
   } catch(e) {
