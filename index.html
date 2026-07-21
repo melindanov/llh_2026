@@ -243,8 +243,16 @@ function sendAction(action, payload) {
 /* ──────────────────────────────────────────
    FEED
 ────────────────────────────────────────── */
+function getClaimedSet() {
+  try { return new Set(JSON.parse(localStorage.getItem('dibs_claimed') || '[]')); } catch(e) { return new Set(); }
+}
+function saveClaimedSet(s) {
+  try { localStorage.setItem('dibs_claimed', JSON.stringify([...s])); } catch(e) {}
+}
+
 function renderFeed() {
   const list = document.getElementById('feed-list');
+  const claimed = getClaimedSet();
   const items = materials.filter(m => activeFilter === 'Alle' || m.category === activeFilter);
 
   if (!items.length) {
@@ -252,7 +260,17 @@ function renderFeed() {
     return;
   }
 
-  list.innerHTML = items.map((m, i) => `
+  list.innerHTML = items.map((m, i) => {
+    const isClaimedByMe = claimed.has(String(m.id));
+    let btnHtml;
+    if (m.status !== 'verfügbar') {
+      btnHtml = `<button class="btn-claim sent" disabled><i class="fa-solid fa-clock"></i> ${m.status === 'reserviert' ? 'Reserviert' : 'Abgeholt'}</button>`;
+    } else if (isClaimedByMe) {
+      btnHtml = `<button class="btn-claim sent" data-id="${m.id}" data-claimed="true"><i class="fa-solid fa-check"></i> Anfrage gesendet · Abbrechen</button>`;
+    } else {
+      btnHtml = `<button class="btn-claim" data-id="${m.id}" data-claimed="false">DIBS!</button>`;
+    }
+    return `
     <div class="card" style="animation-delay:${i*0.05}s">
       <div class="card-header">
         <div><div class="card-title">${escHtml(m.title)}</div><div class="card-meta">${escHtml(m.postedBy)}</div></div>
@@ -261,18 +279,23 @@ function renderFeed() {
       <div class="card-qty"><i class="fa-solid fa-box"></i>${m.qty} ${m.unit}
         ${m.plz ? `<span style="margin-left:8px;color:var(--muted)"><i class="fa-solid fa-location-dot"></i> ${m.plz}</span>` : ''}
       </div>
-      ${m.status === 'verfügbar'
-        ? `<button class="btn-claim" data-id="${m.id}">DIBS!</button>`
-        : `<button class="btn-claim sent" disabled><i class="fa-solid fa-clock"></i> ${m.status === 'reserviert' ? 'Reserviert' : 'Abgeholt'}</button>`}
-    </div>
-  `).join('');
+      ${btnHtml}
+    </div>`;
+  }).join('');
 
-  list.querySelectorAll('.btn-claim:not(.sent)').forEach(btn => {
+  list.querySelectorAll('.btn-claim[data-id]').forEach(btn => {
     btn.addEventListener('click', () => {
       const id = btn.dataset.id;
+      const wasClaimed = btn.dataset.claimed === 'true';
+      const nowClaimed = !wasClaimed;
+
+      const set = getClaimedSet();
+      if (nowClaimed) set.add(String(id)); else set.delete(String(id));
+      saveClaimedSet(set);
+
       btn.disabled = true;
       btn.textContent = 'Wird gesendet…';
-      sendAction('claim', { id: id });
+      sendAction('toggleClaim', { id: id, claimed: nowClaimed });
     });
   });
 }
