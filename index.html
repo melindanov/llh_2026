@@ -119,17 +119,39 @@
   .nav-item.post-btn i { font-size: 22px; color: var(--accent); }
 
   .photo-slot {
+    position: relative;
     border: 2px dashed var(--border);
     border-radius: var(--radius);
-    padding: 28px;
+    height: 160px;
     text-align: center;
     background: var(--surface);
     margin-bottom: 14px;
     cursor: pointer;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.18s ease;
   }
-  .photo-slot i { font-size: 28px; color: var(--muted); margin-bottom: 8px; display: block; }
-  .photo-slot p { font-size: 13px; color: var(--muted); font-weight: 500; }
-  .photo-slot small { font-size: 11px; color: var(--muted); margin-top: 4px; display: block; }
+  .photo-slot:hover { border-color: var(--accent); }
+  .photo-slot.filled { border-style: solid; border-color: var(--border); }
+  .photo-slot i { font-size: 26px; color: var(--muted); margin-bottom: 6px; display: block; }
+  .photo-slot p { font-size: 13px; color: var(--muted); font-weight: 600; }
+  .photo-slot small { font-size: 11px; color: var(--muted); margin-top: 2px; display: block; }
+  #photo-preview { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .photo-overlay {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.75), transparent);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 22px 12px 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    justify-content: center;
+  }
 </style>
 </head>
 <body>
@@ -161,7 +183,10 @@
     </div>
     <div class="form-wrap">
       <div class="photo-slot" id="photo-slot">
-        <img id="photo-preview" src="" alt="" style="display:none;max-height:140px;border-radius:10px;object-fit:cover;width:100%">
+        <img id="photo-preview" src="" alt="" style="display:none">
+        <div class="photo-overlay" id="photo-overlay" style="display:none">
+          <i class="fa-solid fa-camera-rotate" style="font-size:12px;color:#fff;margin:0"></i> Foto ändern
+        </div>
         <div id="photo-placeholder">
           <i class="fa-regular fa-image"></i>
           <p>Foto hinzufügen</p>
@@ -298,11 +323,15 @@ ThunkableWebviewerExtension.receiveMessage(function(message) {
 
     if (obj.type === 'imageSelected' && obj.url) {
       pendingImageUrl = obj.url;
+      const slot = document.getElementById('photo-slot');
       const preview = document.getElementById('photo-preview');
       const placeholder = document.getElementById('photo-placeholder');
+      const overlay = document.getElementById('photo-overlay');
       preview.src = obj.url;
       preview.style.display = 'block';
       placeholder.style.display = 'none';
+      overlay.style.display = 'flex';
+      slot.classList.add('filled');
     }
   } catch(e) {
     console.error('Fehler beim Verarbeiten der Nachricht:', e);
@@ -427,6 +456,8 @@ document.getElementById('btn-post').addEventListener('click', () => {
   pendingImageUrl = null;
   document.getElementById('photo-preview').style.display = 'none';
   document.getElementById('photo-placeholder').style.display = 'block';
+  document.getElementById('photo-overlay').style.display = 'none';
+  document.getElementById('photo-slot').classList.remove('filled');
 });
 
 function shakeInput(id) {
