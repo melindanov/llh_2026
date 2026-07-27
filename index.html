@@ -152,6 +152,25 @@
     gap: 6px;
     justify-content: center;
   }
+  .photo-choice-row { display: flex; gap: 8px; margin-bottom: 14px; }
+  .photo-choice-btn {
+    flex: 1;
+    background: var(--surface2);
+    border: 1.5px solid var(--border);
+    color: var(--text2);
+    border-radius: var(--radius-sm);
+    padding: 11px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: var(--font);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: border-color 0.18s ease, color 0.18s ease;
+  }
+  .photo-choice-btn:hover { border-color: var(--accent); color: var(--accent); }
 </style>
 </head>
 <body>
@@ -192,8 +211,12 @@
         <div id="photo-placeholder">
           <i class="fa-regular fa-image"></i>
           <p>Foto hinzufügen</p>
-          <small>Tippen, um ein Foto auszuwählen</small>
+          <small>Wähle eine Option</small>
         </div>
+      </div>
+      <div class="photo-choice-row" id="photo-choice-row">
+        <button type="button" class="photo-choice-btn" data-source="camera"><i class="fa-solid fa-camera"></i> Kamera</button>
+        <button type="button" class="photo-choice-btn" data-source="gallery"><i class="fa-regular fa-images"></i> Galerie</button>
       </div>
       <div class="form-group">
         <label class="form-label">Materialbezeichnung *</label>
@@ -419,8 +442,10 @@ function renderFeed() {
   });
 }
 
-document.getElementById('photo-slot').addEventListener('click', () => {
-  sendAction('pickImage', {});
+document.querySelectorAll('.photo-choice-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    sendAction('pickImage', { source: btn.dataset.source });
+  });
 });
 
 document.querySelectorAll('#feed-chips .chip').forEach(chip => {
